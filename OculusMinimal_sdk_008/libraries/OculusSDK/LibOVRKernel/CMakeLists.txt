@@ -1,6 +1,16 @@
 project (OculusVRKernel)
 
-include_directories(Src Src/Kernel Src/Util Src/Tracing Src/GL)
+set(INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/Src"
+				 "${CMAKE_CURRENT_SOURCE_DIR}/Src/Kernel"
+				 "${CMAKE_CURRENT_SOURCE_DIR}/Src/Util"
+				 "${CMAKE_CURRENT_SOURCE_DIR}/Src/Tracing"
+				 "${CMAKE_CURRENT_SOURCE_DIR}/Src/GL")
+
+set(OCULUSVRKERNEL_INCLUDE_DIRS "${INCLUDE_DIRS}" CACHE STRING "OculusVRKernel Includes")
+
+mark_as_advanced(OCULUSVRKERNEL_INCLUDE_DIRS)
+
+include_directories("${OCULUSVRKERNEL_INCLUDE_DIRS}")
 
 file(GLOB_RECURSE SOURCE_FILES Src/*.cpp Src/*.h Include/*.h)
 
@@ -45,6 +55,14 @@ else()
 endif()
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DOVR_BUILD_DEBUG")
-add_library(OculusVRKernel ${SOURCE_FILES} ${PLATFORM_SOURCE_FILES})
+add_definitions(-DOVR_ENABLE_DEVELOPER_SEARCH)
+
+IF(${BUILD_SHARED_LIBS})    
+	add_definitions(-DOVR_DLL_BUILD)
+	add_library(OculusVRKernel SHARED ${SOURCE_FILES} ${PLATFORM_SOURCE_FILES})
+ELSE()
+	add_library(OculusVRKernel STATIC ${SOURCE_FILES} ${PLATFORM_SOURCE_FILES})
+ENDIF()
+
 target_link_libraries(OculusVRKernel ${EXTRA_LIBS})
 set(OVR_KERNEL_LIBRARIES ${EXTRA_LIBS} CACHE STRING "Dependencies of OculusVRKernel")
