@@ -39,7 +39,7 @@ if (NOT(EXISTS ${OVR_DIR_KERNEL} AND IS_DIRECTORY ${OVR_DIR_KERNEL}))
 endif()
 
 # The primary SDK artifact, a static library for Oculus access 
-set(BUILD_SHARED_LIBS ON)
+set(BUILD_SHARED_LIBS OFF)
 add_subdirectory(libraries/OculusSDK/LibOVR)
 set(BUILD_SHARED_LIBS OFF)
 add_subdirectory(libraries/OculusSDK/LibOVRKernel)

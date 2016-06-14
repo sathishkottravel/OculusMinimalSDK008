@@ -124,9 +124,11 @@ endif()
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DOVR_BUILD_DEBUG")
 #add_definitions(-DOVR_DECLARE_IMPORT)
 #add_definitions(-DOVR_DLSYM)
+add_definitions(-DOVR_ENABLE_DEVELOPER_SEARCH)
+add_definitions(-DOVR_DLL_BUILD)
 
 IF(${BUILD_SHARED_LIBS})
-    add_definitions(-DOVR_DLL_BUILD)
+    
 	add_library(OculusVR SHARED ${SOURCE_FILES} ${PLATFORM_SOURCE_FILES})
 ELSE()
 	add_library(OculusVR STATIC ${SOURCE_FILES} ${PLATFORM_SOURCE_FILES})
